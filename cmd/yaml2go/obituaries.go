@@ -20,36 +20,36 @@ type OBITUARY struct {
 
 // GenerateObituaries converts
 func (y *YAML) GenerateObituaries(w io.Writer) error {
-	fmt.Fprintf(w, "// Obituary is data\n")
-	fmt.Fprintf(w, "type Obituary struct {\n")
-	fmt.Fprintf(w, "    Query       []string\n")
-	fmt.Fprintf(w, "    YesResponse []string\n")
-	fmt.Fprintf(w, "}\n\n")
+	_, _ = fmt.Fprintf(w, "// Obituary is data\n")
+	_, _ = fmt.Fprintf(w, "type Obituary struct {\n")
+	_, _ = fmt.Fprintf(w, "    Query       []string\n")
+	_, _ = fmt.Fprintf(w, "    YesResponse []string\n")
+	_, _ = fmt.Fprintf(w, "}\n\n")
 
-	fmt.Fprintf(w, "// generateObituaries returns the initial state of obituaries\n")
-	fmt.Fprintf(w, "func generateObituaries() []*Obituary {\n")
-	fmt.Fprintf(w, "    return []*Obituary{\n")
+	_, _ = fmt.Fprintf(w, "// generateObituaries returns the initial state of obituaries\n")
+	_, _ = fmt.Fprintf(w, "func generateObituaries() []*Obituary {\n")
+	_, _ = fmt.Fprintf(w, "    return []*Obituary{\n")
 	for _, v := range y.Obituaries {
-		fmt.Fprintf(w, "        &Obituary{\n")
+		_, _ = fmt.Fprintf(w, "        &Obituary{\n")
 		if len(v.Query) != 0 {
-			fmt.Fprintf(w, "            Query: []string{\n")
+			_, _ = fmt.Fprintf(w, "            Query: []string{\n")
 			for _, s := range strings.Split(v.Query, "\n") {
-				fmt.Fprintf(w, "                %q,\n", s)
+				_, _ = fmt.Fprintf(w, "                %q,\n", s)
 			}
-			fmt.Fprintf(w, "            },\n")
+			_, _ = fmt.Fprintf(w, "            },\n")
 		}
 		if len(v.YesResponse) != 0 {
-			fmt.Fprintf(w, "            YesResponse: []string{\n")
+			_, _ = fmt.Fprintf(w, "            YesResponse: []string{\n")
 			for _, s := range strings.Split(v.YesResponse, "\n") {
-				fmt.Fprintf(w, "                %q,\n", s)
+				_, _ = fmt.Fprintf(w, "                %q,\n", s)
 			}
-			fmt.Fprintf(w, "            },\n")
+			_, _ = fmt.Fprintf(w, "            },\n")
 		}
-		fmt.Fprintf(w, "        },\n")
+		_, _ = fmt.Fprintf(w, "        },\n")
 	}
-	fmt.Fprintf(w, "   }\n")
-	fmt.Fprintf(w, "}\n")
-	fmt.Fprintf(w, "\n")
+	_, _ = fmt.Fprintf(w, "   }\n")
+	_, _ = fmt.Fprintf(w, "}\n")
+	_, _ = fmt.Fprintf(w, "\n")
 
 	return nil
 }
