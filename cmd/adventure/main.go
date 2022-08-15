@@ -6,31 +6,22 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/mdhender/open-adventure/state"
+	"github.com/mdhender/open-adventure/adventure"
 	"os"
 )
 
 func main() {
-	if err := run(); err != nil {
+	adv, err := adventure.New()
+	if err != nil {
 		fmt.Printf("%+v\n", err)
 		os.Exit(2)
 	}
-	os.Exit(0)
-}
 
-func run() error {
-	adv, err := state.NewAdventure()
-	if err != nil {
-		return err
+	if err = adventure.SaveState(adv, "D:\\open-adventure\\testdata\\state.json"); err != nil {
+		fmt.Printf("%+v\n", err)
+		os.Exit(2)
 	}
-	b, err := json.MarshalIndent(adv, "", "  ")
-	if err != nil {
-		return err
-	}
-	if err = os.WriteFile("D:\\open-adventure\\testdata\\state.json", b, 0666); err != nil {
-		return err
-	}
-	return nil
+
+	os.Exit(0)
 }
