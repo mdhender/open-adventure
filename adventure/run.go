@@ -6,6 +6,7 @@ package adventure
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/mdhender/open-adventure/state"
 	"os"
 )
@@ -25,4 +26,9 @@ func SaveState(adv *state.Adventure, saveFile string) error {
 		return err
 	}
 	return nil
+}
+
+// ExecuteCommand executes a single command, returning any errors and output
+func ExecuteCommand(adv *state.Adventure, cmd string) (output string, err error) {
+	return "", fmt.Errorf("not implemented")
 }
