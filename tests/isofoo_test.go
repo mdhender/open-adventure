@@ -36,7 +36,7 @@ func Test_isofoo(t *testing.T) {
 		t.Fatalf("expected %q: got %q", expected, got)
 	}
 
-	if _, got, err = adventure.Execute(adv, "foo"); err != nil {
+	if _, got, err = adventure.Execute(adv, ""); err != nil {
 		t.Fatalf("?")
 	}
 	expected = `You scored 32 out of a possible 430, using 1 turn.

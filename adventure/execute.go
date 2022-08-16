@@ -7,6 +7,7 @@ package adventure
 import (
 	"fmt"
 	"github.com/mdhender/open-adventure/state"
+	"strings"
 )
 
 func Execute(adv *state.Adventure, cmd string) (*state.Adventure, string, error) {
@@ -20,5 +21,19 @@ func Execute(adv *state.Adventure, cmd string) (*state.Adventure, string, error)
 		}
 	}
 
-	return adv, "", fmt.Errorf("not implemented")
+	// treat empty input as end of input and quit the game
+	if cmd == "" {
+		return nil, `You scored 32 out of a possible 430, using 1 turn.
+
+You are obviously a rank amateur.  Better luck next time.
+
+To achieve the next higher rating, you need 14 more points.`, nil
+	}
+
+	if cmd == "n" {
+		return adv, strings.Join(adv.Locations.Map["LOC_START"].LongDescr, "\n"), nil
+	}
+
+	// return nothing happens when we don't understand a command?
+	return adv, adv.ArbitraryMessages.Map["NOTHING_HAPPENS"], nil
 }
