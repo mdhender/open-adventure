@@ -11,24 +11,23 @@ import (
 	"os"
 )
 
-func New() (*state.Adventure, error) {
-	adv, err := state.NewAdventure()
-	if err != nil {
-		return nil, err
+func Execute(adv *state.Adventure, cmd string) (*state.Adventure, string, error) {
+	if adv == nil {
+		if adv, err := state.NewAdventure(); err != nil {
+			return nil, "", err
+		} else {
+			return adv, adv.ArbitraryMessages.Map["WELCOME_YOU"], nil
+		}
 	}
-	return adv, nil
+
+	return adv, "", fmt.Errorf("not implemented")
 }
 
-func SaveState(adv *state.Adventure, saveFile string) error {
+func Save(adv *state.Adventure, saveFile string) error {
 	if b, err := json.MarshalIndent(adv, "", "  "); err != nil {
 		return err
 	} else if err = os.WriteFile(saveFile, b, 0666); err != nil {
 		return err
 	}
 	return nil
-}
-
-// ExecuteCommand executes a single command, returning any errors and output
-func ExecuteCommand(adv *state.Adventure, cmd string) (output string, err error) {
-	return "", fmt.Errorf("not implemented")
 }

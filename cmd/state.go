@@ -6,7 +6,6 @@ package cmd
 
 import (
 	"github.com/mdhender/open-adventure/adventure"
-	"github.com/mdhender/open-adventure/state"
 	"github.com/spf13/cobra"
 	"log"
 )
@@ -16,14 +15,17 @@ var cmdState = &cobra.Command{
 	Short: "save state to a JSON file",
 	Long:  `Create a new adventure and write its state to a persistent store.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		adv, err := state.NewAdventure()
+		adv, output, err := adventure.Execute(nil, "")
 		if err != nil {
 			log.Fatal(err)
 		}
+		log.Printf("%s\n", output)
+
 		stateFile := "D:\\open-adventure\\testdata\\state.json"
-		if err = adventure.SaveState(adv, stateFile); err != nil {
+		if err = adventure.Save(adv, stateFile); err != nil {
 			log.Fatal(err)
 		}
+
 		log.Printf("state: saved to %q\n", stateFile)
 	},
 }
