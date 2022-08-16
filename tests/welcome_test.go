@@ -15,7 +15,7 @@ func TestWelcome(t *testing.T) {
 		t.Fatalf("?")
 	} else if adv == nil {
 		t.Fatalf("?")
-	} else if output != "Welcome to Adventure!!  Would you like instructions?" {
+	} else if output != adv.ArbitraryMessages.Map["WELCOME_YOU"] {
 		t.Fatalf("?")
 	}
 }
