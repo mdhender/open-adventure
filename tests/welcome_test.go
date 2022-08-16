@@ -9,13 +9,13 @@ import (
 	"testing"
 )
 
-func TestWelcome(t *testing.T) {
-	adv, output, err := adventure.Execute(nil, "")
+func Test_welcome(t *testing.T) {
+	adv, got, err := adventure.Execute(nil, "")
 	if err != nil {
-		t.Fatalf("?")
-	} else if adv == nil {
-		t.Fatalf("?")
-	} else if output != adv.ArbitraryMessages.Map["WELCOME_YOU"] {
-		t.Fatalf("?")
+		t.Fatalf("%v", err)
+	}
+	expected := adv.ArbitraryMessages.Map["WELCOME_YOU"]
+	if expected != got {
+		t.Fatalf("expected %q: got %q", expected, got)
 	}
 }
