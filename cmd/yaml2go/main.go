@@ -58,12 +58,12 @@ func run(input, outputPath string) error {
 	}
 	d.NLocations = len(d.LocationsRefs)
 
-	for _, t := range []string{"advent", "dungeon"} {
+	for _, t := range []string{"advent.h", "dungeon.c", "dungeon.h"} {
 		d.TemplateName = t
 		b := &bytes.Buffer{}
 		if err = y.GenerateTemplate(d, b); err != nil {
 			return err
-		} else if err = os.WriteFile(filepath.Join("adventure", fmt.Sprintf("%s.h.go", t)), b.Bytes(), 0666); err != nil {
+		} else if err = os.WriteFile(filepath.Join("adventure", fmt.Sprintf("%s.go", t)), b.Bytes(), 0666); err != nil {
 			return err
 		}
 	}

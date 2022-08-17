@@ -3,7 +3,7 @@
 package adventure
 
 const (
-  SILENT = -1 /* no sound */
+    SILENT = -1 /* no sound */
 )
 
 /* Symbols for cond bits */
@@ -16,6 +16,20 @@ const (
     NOBJECTS   = {{.NObjects}}
     NHINTS     = {{.NHints}}
 )
+
+// dungeon.c: 52
+type descriptions_t struct {
+    small string
+    big string
+}
+
+// dungeon.c: 57
+type location_t struct {
+    description descriptions_t
+    sound int
+    loud bool
+}
+
 
 // enum locations_refs
 const ({{range .LocationsRefs}}

@@ -44,5 +44,13 @@ func initialise(w io.Writer, settings *settings_t) *game_t {
 		game.place[i] = LOC_NOWHERE
 	}
 
+	for i := 1; i <= NLOCATIONS; i++ {
+		if !(locations[i].description.big == "" || tkey[i] == 0) {
+			k := tkey[i]
+			if travel[k].motion == HERE {
+				conditions[i] |= (1 << COND_FORCED)
+			}
+		}
+	}
 	return game
 }
