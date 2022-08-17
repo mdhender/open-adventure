@@ -1,0 +1,24 @@
+// {{.DoNotEditHeader}}
+
+package adventure
+
+const (
+  SILENT = -1 /* no sound */
+)
+
+/* Symbols for cond bits */
+const (
+
+)
+
+const (
+    NLOCATIONS = {{.NLocations}}
+    NOBJECTS   = {{.NObjects}}
+    NHINTS     = {{.NHints}}
+)
+
+// enum locations_refs
+const ({{range .LocationsRefs}}
+    {{.Enum}}{{if eq .Seq 0}} loc_t = iota{{end -}}
+{{end}}
+)

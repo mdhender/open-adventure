@@ -1,0 +1,111 @@
+// {{.DoNotEditHeader}}
+
+package adventure
+
+import "io"
+
+/* LCG PRNG parameters tested against
+ * Knuth vol. 2. by the original authors */
+const (
+    LCG_A =    1093
+    LCG_C =  221587
+    LCG_M = 1048576
+)
+
+const (
+    TOKLEN         =   5  // # sigificant characters in a token */
+    NDWARVES       =   6  // number of dwarves
+    GAMELIMIT      = 330  // base limit of turns
+    WARNTIME       =  30  // late game starts at game.limit-this
+    FLASHTIME      =  50  // turns from first warning till blinding flash
+    WORD_EMPTY     =   0  // "Word empty" flag value for the vocab hash functions
+)
+
+// enum scorebonus
+type score_t int
+const (
+    none score_t = iota
+    splatter
+    defeat
+    victory
+)
+
+type vocab_t int // index into a vocabulary array */
+type verb_t int  // index into an actions array */
+type obj_t int   // index into the object array */
+type loc_t int   // index into the locations array */
+type turn_t int  // turn counter or threshold */
+
+type game_t struct {
+    lcg_x   int32
+    abbnum  int     // How often to print int descriptions
+    bonus   score_t // What kind of finishing bonus we are getting
+    chloc   loc_t   // pirate chest location
+    chloc2  loc_t   // pirate chest alternate location
+    clock1  turn_t  // # turns from finding last treasure to close
+    clock2  turn_t  // # turns from warning till blinding flash
+    clshnt  bool    // has player read the clue in the endgame?
+    closed  bool    // whether we're all the way closed
+    closng  bool    // whether it's closing time yet
+    lmwarn  bool    // has player been warned about lamp going dim?
+    novice  bool    // asked for instructions at start-up?
+    panic   bool    // has player found out he's trapped?
+    wzdark  bool    // whether the loc he's leaving was dark
+    blooded bool    // has player drunk of dragon's blood?
+    conds   int     // min value for cond[loc] if loc has any hints
+    detail  int     // level of detail in descriptions
+
+    /*  dflag controls the level of activation of dwarves:
+     *  0   No dwarf stuff yet (wait until reaches Hall Of Mists)
+     *  1   Reached Hall Of Mists, but hasn't met first dwarf
+     *  2   Met first dwarf, others start moving, no knives thrown yet
+     *  3   A knife has been thrown (first set always misses)
+     *  3+  Dwarves are mad (increases their accuracy) */
+    dflag uint64
+
+    dkill  int                   // dwarves killed
+    dtotal int                   // total dwarves (including pirate) in loc
+    foobar int                   // progress in saying "FEE FIE FOE FOO".
+    holdng int                   // number of objects being carried
+    igo    int                   // # uses of "go" instead of a direction
+    iwest  int                   // # times he's said "west" instead of "w"
+    knfloc int                   // knife location; 0 if none, -1 after caveat
+    limit  turn_t                // lifetime of lamp
+    loc    loc_t                 // where player is now
+    newloc loc_t                 // where player is going
+    numdie turn_t                // number of times killed so far
+    oldloc loc_t                 // where player was
+    oldlc2 loc_t                 // where player was two moves ago
+    oldobj obj_t                 // last object player handled
+    saved  int                   // point penalty for saves
+    tally  int                   // count of treasures gained
+    thresh int                   // current threshold for endgame scoring tier
+    trndex turn_t                // FIXME: not used, remove on next format bump
+    trnluz turn_t                // # points lost so far due to turns used
+    turns  turn_t                // counts commands given (ignores yes/no)
+    zzword [TOKLEN + 1]byte      // randomly generated magic word from bird
+    abbrev [NLOCATIONS + 1]int   // has location been seen?
+    atloc  [NLOCATIONS + 1]int   // head of object linked list per location
+    dseen  [NDWARVES + 1]int     // true if dwarf has seen him
+    dloc   [NDWARVES + 1]loc_t   // location of dwarves, initially hard-wired in
+    odloc  [NDWARVES + 1]loc_t   // prior loc of each dwarf, initially garbage
+    fixed  [NOBJECTS + 1]loc_t   // fixed location of object (if  not IS_FREE)
+    link   [NOBJECTS*2 + 1]obj_t // object-list links
+    place  [NOBJECTS + 1]loc_t   // location of object
+    hinted [NHINTS]int           // hinted[i] = true iff hint i has been used.
+    hintlc [NHINTS]int           // hintlc[i] = how int at LOC with cond bit i
+    prop   [NOBJECTS + 1]int     // object state array */
+
+    stdout  io.Writer // mdhender - added bytes buffer for stdio
+}
+
+/*
+ * Game application settings - settings, but not state of the game, per se.
+ * This data is not saved in a saved game.
+ */
+type settings_t struct {
+    logfp    io.Writer
+    oldstyle bool
+    prompt   bool
+    scriptfp io.Reader
+}
